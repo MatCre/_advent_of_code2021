@@ -23,7 +23,7 @@ def coord_between_points_diagonal(start_x,end_x,start_y,end_y):
     end_y = int(end_y)
     x_points = []
     y_points = []
-    print(f"From {start_x, start_y} to {end_x, end_y}")
+    # print(f"From {start_x, start_y} to {end_x, end_y}")
 
     if start_x < end_x:
         for i in range(0,end_x - start_x + 1):
@@ -40,7 +40,7 @@ def coord_between_points_diagonal(start_x,end_x,start_y,end_y):
             y_points.append(start_y - i)
     combined = []
     for i in range(len(x_points)):
-        combined.append((x_points[i],y_points[i]))
+        combined.append((str(x_points[i]),str(y_points[i])))
 
     return combined
         
@@ -64,24 +64,33 @@ for lines in line_data:
     end_x = lines[1][0]
     end_y = lines[1][2]
 
-    print(f"Line starts at {start_x}, {start_y} and goes to {end_x}, {end_y}")
+    # print(f"Line starts at {start_x}, {start_y} and goes to {end_x}, {end_y}")
     if start_y == end_y:
         coords = coords_between_points(start_x,end_x)
-        print("Vertical Line")
+        #"Vertical Line"
+        # Create tuple points based on coords
         for key,i in enumerate(coords):
-            coords[key] = tuple((i,start_y))
-        print(coords)
+            coords[key] = tuple((str(i),str(start_y)))
     elif start_x == end_x:
         coords = coords_between_points(start_y, end_y)
-        print("Horizontal Line")
-        print(coords)
+        #"Horizontal Line"
+        # Create tuple points based on coords
         for key,i in enumerate(coords):
-            coords[key] = tuple((start_x, i))
-        print(coords)
+            coords[key] = tuple((str(start_x), str(i)))
     else:
-        print("Diagonal Line")
+        #"Diagonal Line"
         coords = coord_between_points_diagonal(start_x,end_x, start_y,end_y)
-        print(coords)
+
         #For diagonal lines increment / decrement betwwen start x and end x and start y and end y 8,0 0,8 -> 7,1 6,2 5,3 4,4 3,5 2,6 1,7 0,8
 
+    for coordinate in coords:
+        grid[coordinate] += 1
+        
+points_overlapping = 0
 
+for points in grid:
+    if grid[points] > 1:
+        points_overlapping += 1
+
+print(f"{points_overlapping} points overlap")
+        
